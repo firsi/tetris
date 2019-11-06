@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { createStage } from '../gameHelpers';
+import { SFX_clear } from '../constants/audios';
 
 export const useStage = (player, resetPlayer) => {
    const [stage, setStage] = useState(createStage());
    const [rowsCleared, setRowsCleared] = useState(0);
-
+   
     useEffect(() => {
 
         setRowsCleared(0);
@@ -13,6 +14,7 @@ export const useStage = (player, resetPlayer) => {
                 if(row.findIndex(cell => cell[0]===0) === -1){
                     setRowsCleared(prev => prev + 1);
                     acc.unshift(new Array(newStage[0].length).fill([0,'clear']));
+                    SFX_clear.play();
                     return acc
                 }
                 else {
@@ -41,7 +43,6 @@ export const useStage = (player, resetPlayer) => {
 
             // check collision
             if (player.collided){
-                console.log('collided')
                 resetPlayer();
                 return sweepRows(newStage);
             }

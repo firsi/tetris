@@ -23,8 +23,7 @@ export const checkCollision = (player, stage, {x: moveX, y: moveY}) => {
                     //check that the next move will not go through an occupied cell
                     stage[y + player.pos.y + moveY][x + player.pos.x + moveX][1] !== 'clear'
                 )
-                {console.log('trouble')
-                    return true}
+                {return true}
                 
             }
         }
@@ -32,3 +31,4 @@ export const checkCollision = (player, stage, {x: moveX, y: moveY}) => {
     return false;
 
 }
+

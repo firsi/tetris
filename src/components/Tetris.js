@@ -12,7 +12,7 @@ import {useStage} from '../hooks/useStage';
 import {useInterval} from '../hooks/useInterval';
 import {useGameStatus} from '../hooks/useGameStatus';
 import { createStage, checkCollision } from '../gameHelpers';
-
+import {SFX_ambiance, SFX_gameOver, SFX_levelUp} from '../constants/audios';
 
 
 const Tetris = () => {
@@ -24,10 +24,10 @@ const Tetris = () => {
     const [gameOver, setGameOver] = useState(false);
 
     const drop = () => {
-
         //Increase level
         if(rows > (level + 1) * 10){
             setLevel(prev => prev + 1);
+            SFX_levelUp.play();
         //Increase Speed
         setDropTime(1000/ (level + 1) + 200)
         }
@@ -39,9 +39,10 @@ const Tetris = () => {
             console.log('collided')
             //Game over
             if(player.pos.y < 1){
-                console.log(gameOver);
                 setGameOver(true);
                 setDropTime(null);
+                SFX_ambiance.pause();
+                SFX_gameOver.play();
             }
             updatePlayerPos({x:0, y:0, collided: true})
         }
@@ -67,6 +68,7 @@ const Tetris = () => {
         setScore(0);
         setLevel(0);
         setRows(0);
+        SFX_ambiance.play()
     }
 
     const keyUp = ({keyCode}) => {
